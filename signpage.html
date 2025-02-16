@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slam Book - Signup & Login</title>
+    <style>
+        /* Global Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(138deg, #633298b6, #2575fc);
+            background-size: 200% 200%;
+            animation: gradientAnimation 15s ease infinite; /* Animation for the background */
+        }
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .container {
+            display: flex;
+            width: 800px;
+            height: 550px;
+            box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            background-color: white;
+        }
+        /* Form Container Styling */
+        .form-container {
+            width: 60%;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.4s ease-in-out;
+            text-align: center;
+            background: #f7f7f7; /* Slightly different background */
+            border-radius: 10px; /* Added rounded corners */
+        }
+        .form-container h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #333;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Subtle text shadow */
+        }
+        .form-container label {
+            font-weight: bold;
+            color: #555;
+            display: block;
+            margin: 10px 0 5px;
+        }
+        .form-container input[type="file"] {
+            margin-bottom: 10px;
+        }
+        .form-container input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            margin-bottom: 10px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .form-container input:focus {
+            border-color: #6a11cb;
+            box-shadow: 0 0 10px rgba(106, 17, 203, 0.3);
+            outline: none;
+        }
+        .form-container button {
+            width: 100%;
+            padding: 12px;
+            font-size: 1.1em;
+            background-color: #6a11cb;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .form-container button:hover {
+            background-color: #8e2de2;
+            transform: scale(1.05);
+        }
+        /* Switch Container Styling */
+        .switch-container {
+            width: 40%;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            transition: background-color 0.4s ease;
+            text-align: center;
+            border-left: 1px solid rgba(255, 255, 255, 0.1); /* Subtle separator */
+            border-radius: 0 10px 10px 0; /* Rounded corners for switch container */
+        }
+        .switch-container h2 {
+            margin-bottom: 10px;
+            font-size: 1.5em;
+        }
+        .switch-container button {
+            padding: 10px 20px;
+            font-size: 1em;
+            color: #6a11cb;
+            background-color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .switch-container button:hover {
+            background-color: #f0f0f0;
+            transform: scale(1.05);
+        }
+        .feedback {
+            color: red;
+            margin-top: 10px;
+        }
+        /* Responsive Design */
+        @media (max-width: 900px) {
+            .container {
+                flex-direction: column;
+                height: auto;
+            }
+            .form-container, .switch-container {
+                width: 100%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="signup-container">
+        <div class="form-container" id="signup-form">
+            <h1>Join the Journey 🗺️✨</h1>
+            <label>Email:</label>
+            <input type="email" id="signup-email" placeholder="Enter your email" required>
+            <label>Create Password:</label>
+            <input type="password" id="signup-password" placeholder="Create a password" required>
+            <label>Profile Picture:</label>
+            <input type="file" id="signup-profile-pic" accept="image/*" required>
+            <button onclick="signUp()">Sign Up</button>
+            <div class="feedback" id="signup-feedback"></div>
+        </div>
+        <div class="switch-container">
+            <h2>Already joined? Jump back in!</h2>
+            <button onclick="showLogin()">Login</button>
+        </div>
+    </div>
+    <div class="container" id="login-container" style="display: none;">
+        <div class="form-container" id="login-form">
+            <h1>Unlock Your World 🔓🌍</h1>
+            <label>Email:</label>
+            <input type="email" id="login-email" placeholder="Enter your email" required>
+            <label>Password:</label>
+            <input type="password" id="login-password" placeholder="Enter your password" required>
+           <a href="dashboard.html"><button onclick="login()">Login</button></a> <!-- Changed text to "Login" -->
+            <div class="feedback" id="login-feedback"></div>
+        </div>
+        <div class="switch-container">
+            <h2>Curious? Sign up and explore!!</h2>
+            <button onclick="showSignUp()">Sign up</button>
+        </div>
+    </div>
+    <script>
+        // Function to show the login form
+        function showLogin() {
+            document.getElementById('signup-container').style.display = 'none';
+            document.getElementById('login-container').style.display = 'flex';
+        }
+        // Function to show the signup form
+        function showSignUp() {
+            document.getElementById('login-container').style.display = 'none';
+            document.getElementById('signup-container').style.display = 'flex';
+        }
+        // Function to handle signup
+        function signUp() {
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            const profilePic = document.getElementById('signup-profile-pic').files[0];
+            const feedback = document.getElementById('signup-feedback');
+
+            if (!email || !password || !profilePic) {
+                feedback.textContent = "Please fill all fields.";
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                localStorage.setItem('userEmail', email);
+                localStorage.setItem('userPassword', password);
+                localStorage.setItem('userProfilePic', e.target.result);
+                feedback.textContent = "Account created! Redirecting to login...";
+                setTimeout(showLogin, 2000);
+            };
+            reader.readAsDataURL(profilePic);
+        }
+        // Function to handle login
+        function login() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const feedback = document.getElementById('login-feedback');
+
+            const storedEmail = localStorage.getItem('userEmail');
+            const storedPassword = localStorage.getItem('userPassword');
+
+            if (email === storedEmail && password === storedPassword) {
+                feedback.textContent = "Login successful!";
+                setTimeout(() => window.location.href = "slam_book.html", 1000);
+            } else {
+                feedback.textContent = "Invalid email or password.";
+            }
+        }
+    </script>
+</body>
+</html>

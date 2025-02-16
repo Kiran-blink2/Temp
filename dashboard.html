@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(138deg, #633298b6, #2575fc); /* Linear gradient background */
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            background: #ffffff; /* White background for container */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #3a8cce; /* Header background */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .profile-pic {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            background-color: white;
+            border: 2px solid white;
+        }
+
+        .user-info button {
+            margin-left: 20px;
+            padding: 10px;
+            background: #e63946; /* Logout button background */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .user-info button:hover {
+            background: #d62839; /* Logout button hover color */
+        }
+
+        main {
+            margin-top: 20px;
+        }
+
+        section {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            animation: slideIn 0.5s ease;
+            background-color: #f8f9fa; /* Light grey background for sections */
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #3a8cce; /* Section title color */
+        }
+
+        .slam-book-button {
+            padding: 10px;
+            background: #0d9ad7e7; /* Slam book button background */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .slam-book-button:hover {
+            background: #1580c4; /* Slam book button hover color */
+        }
+
+        .notification {
+            background-color: #ffffff; /* White background for notifications */
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 20px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* Keyframes for animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .edit-button {
+            padding: 8px 12px;
+            background: #ffa500; /* Edit button background */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .edit-button:hover {
+            background: #ff8c00; /* Edit button hover color */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>User Dashboard</h1>
+            <div class="user-info">
+                <div class="profile-pic" id="profile-pic"></div>
+                <p>Welcome, <span id="username">User</span></p>
+                <button onclick="logout()">Logout</button>
+            </div>
+        </header>
+        <main>
+            <section class="notification">
+                <h2>Notifications</h2>
+                <p>No new notifications.</p>
+            </section>
+            <section class="profile">
+                <h2>Profile Overview</h2>
+                <p>Name: <span id="user-name"></span></p>
+                <p>Email: <span id="user-email"></span></p>
+                <p>Age: <span id="user-age"></span></p>
+                <p>Location: <span id="user-location"></span></p>
+                <p>Bio: <span id="user-bio"></span></p>
+                <button class="edit-button" onclick="editProfile()">Edit</button>
+            </section>
+            <section class="slam-book">
+                <h2>Slam Book</h2>
+               <a href="slam.html"><button class="slam-book-button" onclick="goToSlamBook()">Go to Slam Book</button></a>
+            </section>
+            <section class="slam-book-summary">
+                <h2>Total Slam Books Filled</h2>
+                <p id="total-slam-books">0</p>
+                <ul id="slam-book-names">
+                    <!-- List of slam book names will be populated here -->
+                </ul>
+            </section>
+        </main>
+    </div>
+    <script>
+        // Sample user data (replace with actual data retrieval)
+        const user = {
+            name: "John Doe",
+            email: "john.doe@example.com",
+            age: 25,
+            location: "New York",
+            bio: "Love coding and exploring new technologies.",
+            slamBooks: ["Slam Book 1", "Slam Book 2"] // Example slam book names
+        };
+
+        // Display user data
+        document.getElementById("username").textContent = user.name;
+        document.getElementById("user-name").textContent = user.name;
+        document.getElementById("user-email").textContent = user.email;
+        document.getElementById("user-age").textContent = user.age;
+        document.getElementById("user-location").textContent = user.location;
+        document.getElementById("user-bio").textContent = user.bio;
+
+        // Display slam book summary
+        const slamBookNames = user.slamBooks.map(book => `<li>${book}</li>`).join('');
+        document.getElementById("slam-book-names").innerHTML = slamBookNames;
+        document.getElementById("total-slam-books").textContent = user.slamBooks.length;
+
+        function logout() {
+            alert("You have logged out!");
+            window.location.href = "login.html";
+        }
+
+        function goToSlamBook() {
+            window.location.href = "slambook.html";
+        }
+
+        function editProfile() {
+            const newName = prompt("Enter new name:", user.name);
+            if (newName) {
+                user.name = newName;
+                document.getElementById("user-name").textContent = user.name;
+                document.getElementById("username").textContent = user.name;
+            }
+
+            const newEmail = prompt("Enter new email:", user.email);
+            if (newEmail) {
+                user.email = newEmail;
+                document.getElementById("user-email").textContent = user.email;
+            }
+
+            const newAge = prompt("Enter new age:", user.age);
+            if (newAge) {
+                user.age = newAge;
+                document.getElementById("user-age").textContent = user.age;
+            }
+
+            const newLocation = prompt("Enter new location:", user.location);
+            if (newLocation) {
+                user.location = newLocation;
+                document.getElementById("user-location").textContent = user.location;
+            }
+
+            const newBio = prompt("Enter new bio:", user.bio);
+            if (newBio) {
+                user.bio = newBio;
+                document.getElementById("user-bio").textContent = user.bio;
+            }
+        }
+    </script>
+</body>
+</html>

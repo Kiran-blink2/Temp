@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Amazing Moments - Slam Book</title>
+    <style>
+        /* Centered CSS Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(138deg, #633298b6, #2575fc);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Full viewport height */
+        }
+
+        .page {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: none; /* Hide all pages initially */
+            opacity: 0; /* For transition effect */
+            transition: opacity 0.8s ease-in-out; /* Smooth transition */
+        }
+
+        .page.show {
+            display: block; /* Show the current page */
+            opacity: 1; /* Fade in */
+        }
+
+        h1, h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #6200ea;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 1.1rem; /* Increased font size */
+            transition: background-color 0.3s ease; /* Button hover transition */
+        }
+
+        button:hover {
+            background-color: #3700b3;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #555;
+            text-align: left; /* Aligns text to the left */
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s; /* Input focus transition */
+        }
+
+        input:focus, textarea:focus {
+            border-color: #6200ea;
+            outline: none;
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: #aaa; /* Light gray placeholder */
+        }
+
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 500px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            display: none; /* Hide modal initially */
+        }
+    </style>
+</head>
+<body>
+    <!-- Cover Page -->
+    <div class="page show" id="cover-page">
+        <h1>Diving into these pages, let's capture the magic of our moments together📖✨.</h1>
+        <button onclick="showPage('profile-page')">Start</button>
+    </div>
+
+    <!-- Profile Page -->
+    <div class="page" id="profile-page">
+        <h2>Personal Profile</h2>
+        <label>Name:</label>
+        <input type="text" id="name" placeholder="e.g. John Doe" required>
+        <label>Nickname:</label>
+        <input type="text" id="nickname" placeholder="e.g. JD" required>
+        <label>Hobbies:</label>
+        <input type="text" id="hobbies" placeholder="e.g. Reading, Gaming" required>
+        <label>Best Quote:</label>
+        <input type="text" id="bestQuote" placeholder="e.g. 'Carpe Diem'" required>
+        <label>Date of Birth:</label>
+        <input type="date" id="dob" required>
+        <label>Phone Number:</label>
+        <input type="tel" id="phone" placeholder="e.g. +1234567890" required>
+        <label>Social Media:</label>
+        <input type="text" id="socialMedia" placeholder="e.g. Instagram/WhatsApp" required>
+        <button onclick="saveProfile()">Save Profile</button>
+        <button onclick="showPage('memory-page')">Next</button>
+        <button onclick="showPage('cover-page')">Previous Page</button> <!-- Previous Page Button -->
+    </div>
+
+    <!-- Memory Lane Section -->
+    <div class="page" id="memory-page">
+        <h2>Memory Lane</h2>
+        <label>Favorite Moment Together:</label>
+        <textarea id="favoriteMoment" placeholder="e.g. The day we graduated" required></textarea>
+        <label>Favorite Book:</label>
+        <input type="text" id="favoriteBook" placeholder="e.g. Harry Potter" required>
+        <label>Favorite Food:</label>
+        <input type="text" id="favoriteFood" placeholder="e.g. Pizza" required>
+        <label>Favorite Embarrassing Moments:</label>
+        <textarea id="embarrassingMoment" placeholder="e.g. Tripping in front of the class" required></textarea>
+        <label>Upload Selfie:</label>
+        <input type="file" id="selfie" accept="image/*" required>
+        <button onclick="saveMemory()">Save Memory</button>
+        <button onclick="showPage('feedback-page')">Next</button>
+        <button onclick="showPage('profile-page')">Previous Page</button> <!-- Previous Page Button -->
+    </div>
+
+    <!-- Friendship Feedback Loop -->
+    <div class="page" id="feedback-page">
+        <h2>Friendship Feedback</h2>
+        <label>What Do You Admire About a Friend:</label>
+        <textarea id="admire" placeholder="e.g. Their kindness and support" required></textarea>
+        <label>Best Trip:</label>
+        <input type="text" id="bestTrip" placeholder="e.g. Beach vacation" required>
+        <label>What Is the Worst Thing That Happened in Friendship:</label>
+        <textarea id="worstThing" placeholder="e.g. Losing touch for a while" required></textarea>
+        <button onclick="saveFeedback()">Save Feedback</button>
+        <button onclick="showPage('goals-page')">Next</button>
+        <button onclick="showPage('memory-page')">Previous Page</button> <!-- Previous Page Button -->
+    </div>
+
+    <!-- Goals and Ambition Page -->
+    <div class="page" id="goals-page">
+        <h2>Goals and Ambitions</h2>
+        <label>Long-Term Goal:</label>
+        <textarea id="longTermGoal" placeholder="e.g. Become a software engineer" required></textarea>
+        <label>Skills Developed:</label>
+        <textarea id="skillsDeveloped" placeholder="e.g. Java, Python" required></textarea>
+        <label>Skills Developing:</label>
+        <textarea id="skillsDeveloping" placeholder="e.g. JavaScript, Data Analysis" required></textarea>
+        <label>Bucket List:</label>
+        <textarea id="bucketList" placeholder="e.g. Skydiving, Traveling to Japan" required></textarea>
+        <label>Passion:</label>
+        <textarea id="passion" placeholder="e.g. Coding, Photography" required></textarea>
+        <button onclick="saveGoals()">Save Goals</button>
+        <button onclick="showPage('final-reflection')">Next</button>
+        <button onclick="showPage('feedback-page')">Previous Page</button> <!-- Previous Page Button -->
+    </div>
+
+    <!-- Final Reflection Page -->
+    <div class="page" id="final-reflection">
+        <h2>"Memory Lane" 🛤️📖</h2>
+        <p>Thanks for leaving your mark in my slam book; it's now a treasure trove of memories. 📖✨</p>
+        <button onclick="showSummary()">View Summary</button>
+       <a href="dashboard.html"><button onclick="showPage('cover-page')">Home</button></a> <!-- Added Home Button -->
+    </div>
+
+    <!-- Summary Modal -->
+    <div class="modal" id="summary-modal">
+        <h2>Summary of Your Slam Book</h2>
+        <p id="summary-content"></p>
+        <button onclick="closeSummary()">Close</button>
+    </div>
+
+    <script>
+        function showPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => {
+                page.classList.remove('show');
+            });
+            // Show the selected page
+            const selectedPage = document.getElementById(pageId);
+            selectedPage.classList.add('show');
+        }
+
+        function showSummary() {
+            const summaryContent = `
+                Name: ${document.getElementById('name').value}
+                Nickname: ${document.getElementById('nickname').value}
+                Hobbies: ${document.getElementById('hobbies').value}
+                Best Quote: ${document.getElementById('bestQuote').value}
+                Date of Birth: ${document.getElementById('dob').value}
+                Phone Number: ${document.getElementById('phone').value}
+                Social Media: ${document.getElementById('socialMedia').value}
+                Favorite Moment: ${document.getElementById('favoriteMoment').value}
+                Favorite Book: ${document.getElementById('favoriteBook').value}
+                Favorite Food: ${document.getElementById('favoriteFood').value}
+                Favorite Embarrassing Moments: ${document.getElementById('embarrassingMoment').value}
+                Best Trip: ${document.getElementById('bestTrip').value}
+                Admiration: ${document.getElementById('admire').value}
+                Worst Thing: ${document.getElementById('worstThing').value}
+                Long-Term Goal: ${document.getElementById('longTermGoal').value}
+                Skills Developed: ${document.getElementById('skillsDeveloped').value}
+                Skills Developing: ${document.getElementById('skillsDeveloping').value}
+                Bucket List: ${document.getElementById('bucketList').value}
+                Passion: ${document.getElementById('passion').value}
+            `;
+            document.getElementById('summary-content').textContent = summaryContent;
+            document.getElementById('summary-modal').style.display = 'block'; // Show the modal
+        }
+
+        function closeSummary() {
+            document.getElementById('summary-modal').style.display = 'none'; // Hide the modal
+        }
+
+        function saveProfile() {
+            // Logic to save profile data
+            alert("Profile saved!");
+        }
+
+        function saveMemory() {
+            // Logic to save memory data
+            alert("Memory saved!");
+        }
+
+        function saveFeedback() {
+            // Logic to save feedback data
+            alert("Feedback saved!");
+        }
+
+        function saveGoals() {
+            // Logic to save goals data
+            alert("Goals saved!");
+        }
+    </script>
+</body>
+</html>
